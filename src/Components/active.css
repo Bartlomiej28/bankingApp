@@ -1,0 +1,9 @@
+a.active{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: medium;
+    font-weight: bold;
+    color: white;
+    background-color: #3b82f6
+}

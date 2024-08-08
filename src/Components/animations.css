@@ -1,0 +1,7 @@
+.card {
+    transition: transform 0.3s ease, z-index 0.3s ease;
+}
+.card:hover {
+    transform: translateX(40px);
+    z-index: 10;
+}
