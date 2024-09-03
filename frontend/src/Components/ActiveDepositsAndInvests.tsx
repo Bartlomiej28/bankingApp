@@ -24,7 +24,7 @@ function ActiveDepositsAndInvests() {
     const getUserDeposits = async() =>{
       try {
         setIsLoading(true)
-        const response = await axios.get(`http://localhost:3000/deposit/user-deposits/${userID}`)
+        const response = await axios.get(`https://banking-app-beige.vercel.app/deposit/user-deposits/${userID}`)
         setDeposits(response.data.data)
       } catch (error) {
         console.log(error)
