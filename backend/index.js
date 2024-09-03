@@ -12,8 +12,16 @@ app.use(express.json());
 app.options('*', cors({
     origin: 'https://banking-app-xv2x-frontend.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin']
+    allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin', 'Authorization']
 }));
+
+app.use((req, res, next) => {
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'https://banking-app-xv2x-frontend.vercel.app');
