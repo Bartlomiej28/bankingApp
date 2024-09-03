@@ -43,7 +43,7 @@ function CreateNewCardWindow() {
         try {
             setIsLoading(true)
             const transferAmount = parseFloat(amountRef.current?.value || "0");
-            const response = await axios.post('http://localhost:3000/card/create-card', { 
+            const response = await axios.post('https://banking-app-beige.vercel.app/card/create-card', { 
                 totalAmount: transferAmount,
                 currentAmount: transferAmount,
                 color: color,
