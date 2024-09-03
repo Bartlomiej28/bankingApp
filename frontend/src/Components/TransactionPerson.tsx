@@ -25,9 +25,9 @@ function TransactionPerson({ userID, transactionType, to }: TransactionPersonPro
                 let response;
                 setIsLoading(true)
                 if(transactionType === "loss"){
-                    response = await axios.get(`http://localhost:3000/user/email/${to}`);
+                    response = await axios.get(`https://banking-app-beige.vercel.app/user/email/${to}`);
                 } else {
-                    response = await axios.get(`http://localhost:3000/user/${userID}`);
+                    response = await axios.get(`https://banking-app-beige.vercel.app/user/${userID}`);
                 }
                 setUserData(response.data);
             } catch (error) {
