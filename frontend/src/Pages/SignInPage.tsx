@@ -16,7 +16,7 @@ function SignInPage() {
 
     try {
       setIsLoading(true)
-      const response = await axios.post('http://localhost:3000/sign-in',{
+      const response = await axios.post('https://banking-app-beige.vercel.app/sign-in',{
         email: emailRef.current?.value,
         password: passwordRef.current?.value
       })
