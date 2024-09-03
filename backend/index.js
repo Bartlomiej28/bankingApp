@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin: 'https://banking-app-xv2x-frontend.vercel.app/',
+        origin: 'https://banking-app-xv2x-frontend.vercel.app',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type']
     })
