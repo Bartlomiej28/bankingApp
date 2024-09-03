@@ -1,0 +1,55 @@
+import React, { useEffect, useState } from 'react'
+import ActiveInvestCard from './ActiveInvestCard'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
+import axios from 'axios'
+
+type Deposit = {
+  id: string
+  ownerID: string,
+  amount: number,
+  percent: number,
+  openData: Date,
+  endData:   string,
+  duration: number,
+}
+
+function ActiveDepositsAndInvests() {
+  const userID = useSelector((state: RootState) => state.userData.id);
+  const [deposits, setDeposits] = useState<Deposit[]>([])
+
+  useEffect(()=>{
+    const getUserDeposits = async() =>{
+      try {
+        const response = await axios.get(`http://localhost:3000/deposit/user-deposits/${userID}`)
+        setDeposits(response.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUserDeposits();
+  },[userID])
+
+  return (
+    <div className='w-full p-4'>
+      {deposits.length > 0 ? (
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+          {deposits.map((deposit) => (
+            <ActiveInvestCard
+              key={deposit.id}
+              percent={deposit.percent}
+              amount={deposit.amount}
+              duration={deposit.duration}
+              endData={deposit.endData}
+              startData={deposit.openData}
+            />
+          ))}
+        </div>
+      ) : (
+        <p className='w-full text-center text-2xl font-bold opacity-50'>Nie posiadasz otwartych depozytów</p>
+      )}
+    </div>
+  )
+}
+
+export default ActiveDepositsAndInvests
