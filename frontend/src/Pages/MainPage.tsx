@@ -21,12 +21,11 @@ function MainPage() {
   const showCreateNewCardWindow = useSelector((state: RootState) => state.appData.showCreateNewCardWindow)
   const showSidebar = useSelector((state: RootState) => state.appData.showSidebar)
 
-  useEffect(() => {
+
     const userInfoString = localStorage.getItem('User');
     const userInfo = userInfoString ? JSON.parse(userInfoString) : {};
     dispatch(userDataActions.setDataUser(userInfo));
 
-  }, []);
 
   const handleShowSidebar = () =>{
     dispatch(appActions.setShowSidebar())
@@ -34,7 +33,7 @@ function MainPage() {
 
   return (
     <section className='w-full min-h-screen h-auto flex flex-row'>
-      <div className={`hidden lg:flex lg:w-2/12 h-screen top-0 left-0`}>
+      <div className='hidden lg:flex lg:w-2/12 h-screen sticky top-0 left-0'>
         <SidebarComponent />
       </div>
       {showButDepositWindow && <BuyDepositComponent />}

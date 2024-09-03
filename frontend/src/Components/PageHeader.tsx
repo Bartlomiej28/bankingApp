@@ -25,9 +25,3 @@ function PageHeader({style, title, description, numberOfColoredWord} : PageHeade
 
 export default PageHeader
 
-
-/*
-    style:  Colored / Normal
-    title:  Welcome, Bartłomiej
-    description: Manage your money in safe and smart way with Us.
-*/

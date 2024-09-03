@@ -35,7 +35,7 @@ const userDataSlice = createSlice({
             state.ssnpesel = data.ssnpesel;
         },
         setNewAmount(state, action: PayloadAction<number>) {
-            state.amount -= action.payload;
+            state.amount = action.payload;
         }
     }
 });

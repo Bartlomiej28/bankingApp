@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import HomePageImage from '../assets/HomePage.png'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import LoadingWindowComponent from '../Components/LoadingWindowComponent';
 
 
 
@@ -19,6 +20,7 @@ function SignInPage() {
         email: emailRef.current?.value,
         password: passwordRef.current?.value
       })
+
       if(response.status === 200){
         console.log('User logged successfully to jest response data: ', response.data);
         localStorage.setItem("User", JSON.stringify(response.data));
@@ -96,7 +98,7 @@ function SignInPage() {
                 onClick={handleSignIn}
                 className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-                Sign in
+                {isLoading === true ? <LoadingWindowComponent/> : 'Sign in'}
               </button>
             </div>
           </div>

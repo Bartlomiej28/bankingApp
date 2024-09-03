@@ -25,10 +25,6 @@ function Comments() {
             {comments.map(comment =>(
               <Comment name={comment.name} text={comment.text} image={comment.image}/>
             ))}
-
-          
-
-
           </div>
         </div>
       </div>

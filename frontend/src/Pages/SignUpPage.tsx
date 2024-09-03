@@ -4,6 +4,7 @@ import HomePageImage from '../assets/HomePage.png'
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios'
+import LoadingWindowComponent from '../Components/LoadingWindowComponent';
 
 function SignUpPage() {
   const [agreed, setAgreed] = useState(false)
@@ -29,7 +30,7 @@ function SignUpPage() {
       ssnpesel: SSNPESELRef.current?.value,
       email: emailRef.current?.value,
       password: passwordRef.current?.value,
-      thumbnail: "https://wallpapers.com/images/featured/cool-profile-picture-87h46gcobjl5e4xu.jpg"
+      thumbnail: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
     });
     console.log('User created successfully:', response.data);
     navigation('/sign-in')
@@ -195,7 +196,7 @@ function SignUpPage() {
               className={`block w-full rounded-md bg-blue-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 duration-300 ${agreed === false ? 'opacity-50' : ''}`}
               disabled={!agreed}
             >
-              Sign Up
+             {isLoading === true ? <LoadingWindowComponent/> : 'Sign Up'}
             </button>
           </div>
         </div>

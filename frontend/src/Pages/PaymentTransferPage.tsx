@@ -3,6 +3,8 @@ import PageHeader from '../Components/PageHeader'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
+import LoadingWindowComponent from '../Components/LoadingWindowComponent';
+
 
 type Card ={
   id: string,
@@ -10,42 +12,44 @@ type Card ={
 }
 
 function PaymentTransferPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCards, setIsLoadingCards] = useState(false);
+  const [isLoadingTransaction, setIsLoadingCardsTransaction] = useState(false);
   const sourceRef = useRef<HTMLSelectElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const recipientEmailAddressRef = useRef<HTMLInputElement>(null);
   const amountRef = useRef<HTMLInputElement>(null)
   const userID = useSelector((state: RootState) => state.userData.id)
   const [cards, setCards] = useState<Card[]>([]);
+ 
 
-  const handleGetCards = async() =>{
-    try {
-      const response = await axios.get(`http://localhost:3000/card/user-cards/${userID}`);
-      setCards(response.data.data)
-      console.log(response.data.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
   useEffect(()=>{
+    const handleGetCards = async() =>{
+      try {
+        setIsLoadingCards(true)
+        const response = await axios.get(`http://localhost:3000/card/user-cards/${userID}`);
+        setCards(response.data.data)
+      } catch (error) {
+        console.log(error)
+      }finally{
+        setIsLoadingCards(false)
+      }
+    }
     handleGetCards();
   },[userID])
 
-  
+    
 
   const handleTransaction = async() =>{
     try {
-      setIsLoading(true)
       await axios.put('http://localhost:3000/transaction/new-transaction',{
         from: userID,
         to: recipientEmailAddressRef.current?.value,
         transferAmount: amountRef.current?.value,
         source: sourceRef.current?.value
       });
+
     } catch (error) {
       console.log(error)
-    }finally{
-      setIsLoading(false)
     }
   }
 
@@ -63,8 +67,10 @@ function PaymentTransferPage() {
   }
 
   const handleSendTransfer = async() =>{
+    setIsLoadingCardsTransaction(true)
     await handleTransaction();
     await handleSendTransferNotification();
+    setIsLoadingCardsTransaction(false);
   }
 
   return (
@@ -85,12 +91,17 @@ function PaymentTransferPage() {
             <p>Select Source Card</p>
             <p className='text-xs text-gray-500'>Select the card you want to transfer funds from</p>
           </div>
-          <select className="select select-bordered w-full md:w-1/3" ref={sourceRef}>
-            <option value="normal" selected>Normal</option>
-            {cards.map((card) => (
-              <option key={card.id} value={card.id}>{card.name}</option>
-            ))}
-          </select>
+          {isLoadingCards === true ? <LoadingWindowComponent/> : 
+          <>
+            <select className="select select-bordered w-full md:w-1/3" ref={sourceRef}>
+              <option value="normal" selected>Normal</option>
+              {cards.map((card) => (
+                <option key={card.id} value={card.id}>{card.name}</option>
+              ))}
+            </select>
+          </>
+          }
+          
         </div>
 
         <div className="divider"></div>
@@ -157,7 +168,7 @@ function PaymentTransferPage() {
         <button 
           onClick={handleSendTransfer} 
           className='w-full md:w-[57.5%] bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold'>
-          Transfer Funds
+          {isLoadingTransaction === true ? <LoadingWindowComponent/> : 'Transfer Funds'}
         </button>
 
       </div>

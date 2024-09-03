@@ -3,6 +3,7 @@ import ActiveInvestCard from './ActiveInvestCard'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import axios from 'axios'
+import LoadingWindowComponent from './LoadingWindowComponent'
 
 type Deposit = {
   id: string
@@ -16,15 +17,19 @@ type Deposit = {
 
 function ActiveDepositsAndInvests() {
   const userID = useSelector((state: RootState) => state.userData.id);
-  const [deposits, setDeposits] = useState<Deposit[]>([])
+  const [deposits, setDeposits] = useState<Deposit[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(()=>{
     const getUserDeposits = async() =>{
       try {
+        setIsLoading(true)
         const response = await axios.get(`http://localhost:3000/deposit/user-deposits/${userID}`)
         setDeposits(response.data.data)
       } catch (error) {
         console.log(error)
+      }finally{
+        setIsLoading(false)
       }
     }
     getUserDeposits();
@@ -32,8 +37,10 @@ function ActiveDepositsAndInvests() {
 
   return (
     <div className='w-full p-4'>
-      {deposits.length > 0 ? (
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+      {isLoading === true ? <LoadingWindowComponent/> :
+      <>
+        {deposits.length > 0 ? (
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4'>
           {deposits.map((deposit) => (
             <ActiveInvestCard
               key={deposit.id}
@@ -48,6 +55,7 @@ function ActiveDepositsAndInvests() {
       ) : (
         <p className='w-full text-center text-2xl font-bold opacity-50'>Nie posiadasz otwartych depozytów</p>
       )}
+      </>}
     </div>
   )
 }

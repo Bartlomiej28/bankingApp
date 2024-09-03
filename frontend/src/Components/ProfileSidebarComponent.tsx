@@ -8,6 +8,7 @@ import CardComponent from './CardComponent';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import axios from 'axios';
+import LoadingWindowComponent from './LoadingWindowComponent';
 
 type Card = {
   id: string,
@@ -26,16 +27,19 @@ function ProfileSidebarComponent() {
   const email = useSelector((state: RootState) => state.userData.email);
   const userID = useSelector((state: RootState) => state.userData.id);
   const [cards, setCards] = useState<Card[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(()=>{
     const handleGetUserCards = async() =>{
       try {
+        setIsLoading(true)
         const response = await axios.get(`http://localhost:3000/card/user-cards/${userID}`)
         setCards(response.data.data)
       } catch (error) {
         console.log(error)
       }finally{
-
+        setIsLoading(false)
       }
     }
     handleGetUserCards();
@@ -54,17 +58,22 @@ function ProfileSidebarComponent() {
           <div className='w-full h-auto mb-8'>
             <p className='font-bold mb-4'>My Cards:</p>
               <div className="space-y-4 w-full h-full">
-                {
+                {isLoading === true ? <LoadingWindowComponent/> :
+                <>
+                  {
                   cards.length > 0 ?
+                  <>
                   <div className='min-h-64 h-auto relative'>
                     {cards.map((card, index) =>(
                       <div key={index} className={`card absolute top-${(index+2) *2} w-[90%]`}>
                         <CardComponent color={card.color} cardNumber={card.cardNumber} cardOwner={card.cardOwner}/>
                       </div>
                     ))}
-                  </div>:
+                  </div>
+                  </>:
                   <p className='w-full text-center text-xl opacity-50'>Brak kart</p>
                 }
+                </>}
                 
             </div>
           </div>

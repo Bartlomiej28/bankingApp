@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import TransactionPerson from './TransactionPerson';
+import LoadingWindowComponent from './LoadingWindowComponent';
 
 type Transaction = {
     id: string,
@@ -18,16 +19,21 @@ function RecentTransactionsComponent() {
     const userID = useSelector((state: RootState) => state.userData.id);
     const email = useSelector((state: RootState) => state.userData.email);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        
         const getUserTransactions = async () => {
             try {
+                setIsLoading(true)
                 if (userID && email) {
                     const response = await axios.get(`http://localhost:3000/transaction/transaction-history?param1=${userID}&param2=${email}`);
                     setTransactions(response.data);
                 }
             } catch (error) {
                 console.error(error);
+            }finally{
+                setIsLoading(false)
             }
         };
     
@@ -39,7 +45,6 @@ function RecentTransactionsComponent() {
             <p className='text-2xl font-semibold'>Recent Transactions:</p>
             <div className="overflow-x-auto">
                 <table className="table w-full min-w-full">
-                    {/* head */}
                     <thead>
                         <tr className='text-left'>
                             <th className='p-2'>Transaction</th>
@@ -50,7 +55,9 @@ function RecentTransactionsComponent() {
                         </tr>
                     </thead>
                     <tbody>
-                        {transactions.map(transaction => (
+                        {isLoading === true ? <LoadingWindowComponent/> :
+                        <>
+                            {transactions.map(transaction => (
                             <tr key={transaction.id} className={`${transaction.type === 'loss'? 'bg-red-200' : 'bg-green-100'}`}>
                                 <TransactionPerson 
                                     userID={transaction.from} 
@@ -67,9 +74,9 @@ function RecentTransactionsComponent() {
                                 <td className='p-2'>{transaction.description}</td>
                             </tr>
                         ))}
+                        </>
+                        }
                     </tbody>
-
-                    {/* foot */}
                     <tfoot>
                         <tr>
                             <th className='p-2'>Transaction</th>
