@@ -18,7 +18,7 @@ function HomeComponent() {
     const getUserAmount = async() =>{
       try {
         setIsLoading(true)
-        const response = await axios.get(`http://localhost:3000/user/${userID}`)
+        const response = await axios.get(`https://banking-app-beige.vercel.app/user/${userID}`)
         setAmount(response.data.amount)
       } catch (error) {
         console.log(error)
