@@ -13,7 +13,7 @@ app.use(
     cors({
         origin: 'https://banking-app-xv2x-frontend.vercel.app',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        allowedHeaders: ['Content-Type']
+        allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin']
     })
 );
 
