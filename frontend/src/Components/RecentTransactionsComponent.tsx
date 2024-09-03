@@ -27,7 +27,7 @@ function RecentTransactionsComponent() {
             try {
                 setIsLoading(true)
                 if (userID && email) {
-                    const response = await axios.get(`http://localhost:3000/transaction/transaction-history?param1=${userID}&param2=${email}`);
+                    const response = await axios.get(`https://banking-app-beige.vercel.app/transaction/transaction-history?param1=${userID}&param2=${email}`);
                     setTransactions(response.data);
                 }
             } catch (error) {
