@@ -22,7 +22,7 @@ function SignUpPage() {
   const handleSignUp = async() => {
   try {
     setIsLoading(true);
-    const response = await axios.post('http://localhost:3000/sign-up', {
+    const response = await axios.post('https://banking-app-beige.vercel.app/sign-up', {
       name: nameRef.current?.value,
       surename: surenameRef.current?.value,
       address: addressRef.current?.value,
