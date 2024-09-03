@@ -41,7 +41,7 @@ function BuyDepositComponent() {
 
     try {
       setIsLoading(true)
-      const response = await axios.post('http://localhost:3000/deposit/new-deposit', {
+      const response = await axios.post('https://banking-app-beige.vercel.app/deposit/new-deposit', {
         ownerID: userID,
         amount,
         endData: formattedFutureDate,
