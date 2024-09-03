@@ -53,7 +53,7 @@ router.post('/transaction-notification', async (req, res) => {
     const transferAmountNum = parseFloat(transferAmount);
 
     try {   
-        await prisma.transaction.create({                       /*from - id    to -email*/
+        await prisma.transaction.create({                       
             data: {
                 from: from,
                 to: to,
@@ -113,41 +113,3 @@ router.get('/transaction-history', async (req, res) => {
 
 export default router;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-router.get('/transaction-history/:id/:email', async (req, res) => {
-    const { id, email } = req.params;  // Prawidłowa ekstrakcja parametrów
-
-    try {
-        const transactions = await prisma.transaction.findMany({
-            where: {
-                OR: [
-                    { to: email },  // Transakcje gdzie email użytkownika jest odbiorcą
-                    { from: id }    // Transakcje gdzie ID użytkownika jest nadawcą
-                ]
-            },
-            orderBy: {
-                createdAt: 'desc'
-            }
-        });
-
-        res.status(200).json(transactions);  // Zwracanie transakcji jako JSON
-    } catch (error) {
-        console.error('Błąd podczas przetwarzania powiadomienia:', error.message);
-        res.status(500).json({ message: 'Wystąpił błąd podczas przetwarzania powiadomienia.' });
-    }
-});
-
-export default router;*/
