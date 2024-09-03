@@ -26,7 +26,7 @@ function PaymentTransferPage() {
     const handleGetCards = async() =>{
       try {
         setIsLoadingCards(true)
-        const response = await axios.get(`http://localhost:3000/card/user-cards/${userID}`);
+        const response = await axios.get(`https://banking-app-beige.vercel.app/card/user-cards/${userID}`);
         setCards(response.data.data)
       } catch (error) {
         console.log(error)
@@ -41,7 +41,7 @@ function PaymentTransferPage() {
 
   const handleTransaction = async() =>{
     try {
-      await axios.put('http://localhost:3000/transaction/new-transaction',{
+      await axios.put('https://banking-app-beige.vercel.app/transaction/new-transaction',{
         from: userID,
         to: recipientEmailAddressRef.current?.value,
         transferAmount: amountRef.current?.value,
@@ -55,7 +55,7 @@ function PaymentTransferPage() {
 
   const handleSendTransferNotification = async() =>{
     try {
-      await axios.post('http://localhost:3000/transaction/transaction-notification',{
+      await axios.post('https://banking-app-beige.vercel.app/transaction-notification',{
         from: userID,
         to: recipientEmailAddressRef.current?.value,
         transferAmount: amountRef.current?.value,
