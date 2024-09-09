@@ -34,7 +34,7 @@ function ProfileSidebarComponent() {
     const handleGetUserCards = async() =>{
       try {
         setIsLoading(true)
-        const response = await axios.get(`https://banking-app-beige.vercel.app/card/user-cards/${userID}`)
+        const response = await axios.get(`${process.env.VERCEL_BACKEND_URL}/card/user-cards/${userID}`)
         setCards(response.data.data)
       } catch (error) {
         console.log(error)
